@@ -50,22 +50,12 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    var num = [7, 3, 5, 2, 44, 32, 1, 4, 20, 33, 6];
-    const array = new Set(num);
-    array.forEach((element) => {
-      console.log(array.delete(element));
-    });
-    console.log(array);
-    console.log("hello");
-  }, []);
-
   return (
     <div className="App">
       <RouterProvider router={router} />
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <h3 className="text-[#A24C4A]">Didi Ka Dhaba</h3>
+          <h3 className="text-[#A24C4A]">Pwa App</h3>
         </Modal.Header>
         <Modal.Body>
           <div className="d-flex justify-content-around">

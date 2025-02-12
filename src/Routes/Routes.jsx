@@ -1,291 +1,96 @@
-import Home from "../Home";
-import PrivateRoute from "./PrivateRoute";
+import Home from "../PwaPages/Home";
 import NotFound from "../Components/prebuiltComponent/NotFound";
 import Layout from "../Components/navBar/Layout";
-import Login from "../Components/Login/Login";
-import ReceivedFood from "../Pages/ReceivedFood";
-import IssueFood from "../Pages/IssueFood";
-import Payment from "../Pages/Payment";
-import AdminHome from "../Pages/Adimn/AdminHome";
-import DidiRegistration from "../Pages/Adimn/DidiRegistration";
-import ThelaRegistration from "../Pages/Adimn/ThelaRegistration";
-import AdminRoute from "./AdminRoute";
-import DidiAssignment from "../Pages/Adimn/DidiAssignment";
-import AddFood from "../Pages/Adimn/AddFood";
-import DidiEdit from "../Pages/Adimn/EditFile/DidiEdit";
-import DailyLog from "../Pages/Adimn/DailyLog";
-import ListAssigned from "../Pages/Adimn/ListView/ListAssigned";
-import ListFood from "../Pages/Adimn/ListView/ListFood";
-import ListDidi from "../Pages/Adimn/ListView/ListDidi";
-import ListStall from "../Pages/Adimn/ListView/ListStall";
-import FoodEdit from "../Pages/Adimn/EditFile/FoodEdit";
-import StallEdite from "../Pages/Adimn/EditFile/StallEdite";
-import AssignEdit from "../Pages/Adimn/EditFile/AssignEdit";
-import RegistarRout from "./RegistarRoute";
-import DidiProfile from "../Pages/Adimn/EditFile/DidiProfile";
-import Plate from "../Pages/Adimn/Plates/Plate";
-import DailyLogEdit from "../Pages/Adimn/EditFile/DailyLog";
-import PaymentDetails from "../Pages/Adimn/Payment/PymantDetails";
-import Report from "../Pages/Report";
-import PaymentAnalytic from "../Pages/Adimn/PymentAnnalytic";
+import PublicRoute from "./PublicRoute";
+import ChildRegistration from "../PwaPages/Pages/Add/ChildRegistration";
+import ChildMonitoring from "../PwaPages/Pages/Add/ChildMonitoring";
+import ChildMonitoringList from "../PwaPages/Pages/List/ChildMonitoring";
+import ChildList from "../PwaPages/Pages/List/ChildList";
+
+import MotherRegistration from "../PwaPages/Pages/Add/MotherRegistration";
+import MotherMonitoring from "../PwaPages/Pages/Add/MotherMonitoring";
+import MotherMonitoringList from "../PwaPages/Pages/List/MotherMonitoring";
+import MotherdList from "../PwaPages/Pages/List/MotherList";
 
 const routes = [
   {
     path: "/",
     element: <Layout />,
     children: [
-      { path: "/", element: <Login /> },
       {
-        path: "admin",
+        path: "/",
         element: (
-          <AdminRoute>
-            <AdminHome />
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "analytics",
-        element: (
-          <AdminRoute>
-            <PaymentAnalytic />
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "admin/:id",
-        element: (
-          <AdminRoute>
-            <PaymentDetails />
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "admin/:id/:date",
-        element: (
-          <AdminRoute>
-            <DailyLogEdit />
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "dailylog",
-        element: (
-          <AdminRoute>
-            <DailyLog />
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "didireg",
-        element: (
-          <AdminRoute>
-            <DidiRegistration />
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "didilist",
-        element: (
-          <AdminRoute>
-            <ListDidi />
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "didilist/:id",
-        element: (
-          <AdminRoute>
-            <DidiEdit />
-          </AdminRoute>
-        ),
-      },
-
-      {
-        path: "didiprofile/:id",
-        element: (
-          <AdminRoute>
-            <DidiProfile />
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "thelareg",
-        element: (
-          <AdminRoute>
-            <ThelaRegistration />
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "stall_list",
-        element: (
-          <AdminRoute>
-            <ListStall />
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "stall_list/:id",
-        element: (
-          <AdminRoute>
-            <StallEdite />
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "assign",
-        element: (
-          <AdminRoute>
-            <DidiAssignment />
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "assign_list",
-        element: (
-          <AdminRoute>
-            <ListAssigned />
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "assign_list/:id",
-        element: (
-          <AdminRoute>
-            <AssignEdit />
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "addfood",
-        element: (
-          <AdminRoute>
-            <AddFood />
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "listfood",
-        element: (
-          <AdminRoute>
-            <ListFood />
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "listfood/:id",
-        element: (
-          <AdminRoute>
-            <FoodEdit />
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "plateDetails",
-        element: (
-          <AdminRoute>
-            <Plate />
-          </AdminRoute>
-        ),
-      },
-      {
-        path: "mobilehome",
-        element: (
-          <PrivateRoute>
+          <PublicRoute>
             <Home />
-          </PrivateRoute>
+          </PublicRoute>
         ),
       },
       {
-        path: "report",
+        path: "/Childlist",
         element: (
-          <PrivateRoute>
-            <Report />
-          </PrivateRoute>
+          <PublicRoute>
+            <ChildList />
+          </PublicRoute>
         ),
       },
       {
-        path: "receivedfood",
+        path: "/ChildRegistration",
         element: (
-          <PrivateRoute>
-            <ReceivedFood />
-          </PrivateRoute>
+          <PublicRoute>
+            <ChildRegistration />
+          </PublicRoute>
         ),
       },
       {
-        path: "issuefood",
+        path: "/Childmonitorlist",
         element: (
-          <PrivateRoute>
-            <IssueFood />
-          </PrivateRoute>
+          <PublicRoute>
+            <ChildMonitoringList />
+          </PublicRoute>
         ),
       },
       {
-        path: "payment",
+        path: "/childmonitoring",
         element: (
-          <PrivateRoute>
-            <Payment />
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "didireg-register",
-        element: (
-          <RegistarRout>
-            <DidiRegistration />
-          </RegistarRout>
-        ),
-      },
-      {
-        path: "didilist-register",
-        element: (
-          <RegistarRout>
-            <ListDidi />
-          </RegistarRout>
-        ),
-      },
-      {
-        path: "didiprofile-register/:id",
-        element: (
-          <RegistarRout>
-            <DidiProfile />
-          </RegistarRout>
-        ),
-      },
-      {
-        path: "didilist-register/:id",
-        element: (
-          <RegistarRout>
-            <DidiEdit />
-          </RegistarRout>
-        ),
-      },
-      {
-        path: "thelareg-register",
-        element: (
-          <RegistarRout>
-            <ThelaRegistration />
-          </RegistarRout>
-        ),
-      },
-      {
-        path: "stall_list-register",
-        element: (
-          <RegistarRout>
-            <ListStall />
-          </RegistarRout>
-        ),
-      },
-      {
-        path: "stall_list-register/:id",
-        element: (
-          <RegistarRout>
-            <StallEdite />
-          </RegistarRout>
+          <PublicRoute>
+            <ChildMonitoring />
+          </PublicRoute>
         ),
       },
 
-      // Catch-All Route
+      {
+        path: "/Motherlist",
+        element: (
+          <PublicRoute>
+            <MotherdList />
+          </PublicRoute>
+        ),
+      },
+      {
+        path: "/MotherRegistration",
+        element: (
+          <PublicRoute>
+            <MotherRegistration />
+          </PublicRoute>
+        ),
+      },
+      {
+        path: "/Mothermonitorlist",
+        element: (
+          <PublicRoute>
+            <MotherMonitoringList />
+          </PublicRoute>
+        ),
+      },
+      {
+        path: "/Mothermonitoring",
+        element: (
+          <PublicRoute>
+            <MotherMonitoring />
+          </PublicRoute>
+        ),
+      },
+
       { path: "*", element: <NotFound /> },
     ],
   },
