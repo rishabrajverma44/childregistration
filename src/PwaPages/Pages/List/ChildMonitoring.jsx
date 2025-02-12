@@ -60,7 +60,12 @@ const ChildMonitoring = () => {
           >
             <h3 className="text-lg font-semibold">{child.child_name}</h3>
             <p className="text-gray-600 py-0 my-0">
-              Monitoring Date : {child.monitoring_date?.split("T")[0]}
+              Monitoring Date :{" "}
+              {child.monitoring_date
+                ?.split("T")[0]
+                .split("-")
+                .reverse()
+                .join("-")}
             </p>
             <p className="text-gray-600 py-0 my-0">
               Weight: {child.weight} (in kg)

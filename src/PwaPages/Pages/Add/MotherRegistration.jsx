@@ -12,6 +12,7 @@ const MotherRegistration = () => {
     name: "",
     dod: "",
     weight: "",
+    height: "",
     age: "",
   };
 
@@ -19,11 +20,20 @@ const MotherRegistration = () => {
     name: Yup.string().required("Name is required"),
     dod: Yup.date().required("Birth date is required"),
     weight: Yup.number()
+      .required("Weight is required")
       .typeError("Weight must be a number")
-      .positive("Weight must be positive"),
+      .positive("Weight must be positive")
+      .max(150, "Weight must be at most 150"),
     age: Yup.number()
       .typeError("Age must be a number")
-      .required("Age is required"),
+      .positive("Age must be positive")
+      .required("Age is required")
+      .max(150, "Age must be at most 150"),
+    height: Yup.number()
+      .required("Height is required")
+      .typeError("Height must be a number")
+      .positive("Height must be positive")
+      .max(250, "Height must be at most 250"),
   });
 
   const handleSubmit = async (values, { resetForm }) => {
@@ -89,12 +99,14 @@ const MotherRegistration = () => {
                 </div>
                 <div>
                   <label htmlFor="dod" className="block text-slate-600 mb-1">
-                    Date of Delivery<span className="text-red-500">*</span>
+                    Date of Delivery <span className="text-red-500">*</span>
                   </label>
                   <Field
                     type="date"
                     id="dod"
                     name="dod"
+                    min="2020-01-01"
+                    max={new Date().toISOString().split("T")[0]}
                     className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                   />
                   <ErrorMessage
@@ -105,7 +117,7 @@ const MotherRegistration = () => {
                 </div>
                 <div>
                   <label htmlFor="weight" className="block text-slate-600 mb-1">
-                    Weight (in kg)
+                    Weight (kg) <span className="text-red-500">*</span>
                   </label>
                   <Field
                     type="number"
@@ -121,8 +133,25 @@ const MotherRegistration = () => {
                   />
                 </div>
                 <div>
+                  <label htmlFor="height" className="block text-slate-600 mb-1">
+                    Height (cm) <span className="text-red-500">*</span>
+                  </label>
+                  <Field
+                    type="number"
+                    id="height"
+                    name="height"
+                    placeholder="Enter height"
+                    className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                  <ErrorMessage
+                    name="height"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
+                <div>
                   <label htmlFor="age" className="block text-slate-600 mb-1">
-                    Age
+                    Age <span className="text-red-500">*</span>
                   </label>
                   <Field
                     type="number"

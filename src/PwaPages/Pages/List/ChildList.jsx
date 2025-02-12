@@ -5,6 +5,12 @@ import { Link } from "react-router-dom";
 
 const ChildList = () => {
   const [childrenData, setChildList] = useState([]);
+  const [schoolData, setSchoolList] = useState([]);
+
+  useEffect(() => {
+    console.log(localStorage.getItem("schoolData"));
+  }, []);
+
   useEffect(() => {
     axios
       .get("https://stagedidikadhaba.indevconsultancy.in/testing/children/")
@@ -58,7 +64,9 @@ const ChildList = () => {
             className="bg-white shadow-md rounded-lg px-2 py-2 mt-2"
           >
             <h3 className="text-lg font-semibold">{child.name}</h3>
-            <p className="text-gray-600 py-0 my-0">DOB : {child.birth_date}</p>
+            <p className="text-gray-600 py-0 my-0">
+              DOB : {child.birth_date.split("-").reverse().join("-")}
+            </p>
             <p className="text-gray-600 py-0 my-0">Gender: {child.gender}</p>
             <p className="text-gray-600 py-0 my-0">
               Weight: {child.weight} (kg)

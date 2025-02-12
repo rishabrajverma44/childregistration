@@ -69,7 +69,8 @@ const MotherMonitoring = () => {
     weight: Yup.number()
       .typeError("Weight must be a number")
       .positive("Weight must be positive")
-      .required("Weight is required"),
+      .required("Weight is required")
+      .max(150, "Weight must be at most 150"),
   });
 
   const handleSubmit = async (values) => {

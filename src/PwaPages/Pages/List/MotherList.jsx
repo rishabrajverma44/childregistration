@@ -59,9 +59,11 @@ const MotherList = () => {
             className="bg-white shadow-md rounded-lg px-2 py-2 mt-2"
           >
             <h3 className="text-lg font-semibold">{child.name}</h3>
-            <p className="text-gray-600 py-0 my-0">Birth : {child.dod}</p>
             <p className="text-gray-600 py-0 my-0">
-              Weight: {child.weight} (in kg)
+              Birth : {child.dod.split("-").reverse("").join("-")}
+            </p>
+            <p className="text-gray-600 py-0 my-0">
+              Weight: {child.weight} (kg)
             </p>
           </div>
         ))}

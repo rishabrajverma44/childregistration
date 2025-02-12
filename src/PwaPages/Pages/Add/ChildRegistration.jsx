@@ -10,6 +10,7 @@ const ChildRegistration = () => {
   const navigate = useNavigate();
   const initialValues = {
     name: "",
+    // mname: "",
     birth_date: "",
     weight: "",
     height: "",
@@ -18,15 +19,18 @@ const ChildRegistration = () => {
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
+    // mname: Yup.string().required("Mother's Name is required"),
     birth_date: Yup.date().required("Birth date is required"),
     weight: Yup.number()
       .required("Weight is required")
       .typeError("Weight must be a number")
-      .positive("Weight must be positive"),
+      .positive("Weight must be positive")
+      .max(50, "Weight must be at most 50"),
     height: Yup.number()
       .required("Height is required")
       .typeError("Height must be a number")
-      .positive("Height must be positive"),
+      .positive("Height must be positive")
+      .max(250, "Height must be at most 250"),
   });
 
   const handleSubmit = async (values, { resetForm }) => {
@@ -92,6 +96,24 @@ const ChildRegistration = () => {
                   />
                 </div>
                 <div>
+                  <label htmlFor="mname" className="block text-slate-600 mb-1">
+                    Mother's Name <span className="text-red-500">*</span>
+                  </label>
+
+                  <Field
+                    type="text"
+                    id="mname"
+                    name="mname"
+                    placeholder="Enter Mother's Name"
+                    className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                  <ErrorMessage
+                    name="mname"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
+                <div>
                   <label
                     htmlFor="birth_date"
                     className="block text-slate-600 mb-1"
@@ -102,6 +124,8 @@ const ChildRegistration = () => {
                     type="date"
                     id="birth_date"
                     name="birth_date"
+                    min="2010-12-31"
+                    max={new Date().toISOString().split("T")[0]}
                     className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                   />
                   <ErrorMessage
@@ -112,7 +136,7 @@ const ChildRegistration = () => {
                 </div>
                 <div>
                   <label htmlFor="weight" className="block text-slate-600 mb-1">
-                    Weight (kg)
+                    Weight (kg) <span className="text-red-500">*</span>
                   </label>
                   <Field
                     type="number"
@@ -129,7 +153,7 @@ const ChildRegistration = () => {
                 </div>
                 <div>
                   <label htmlFor="height" className="block text-slate-600 mb-1">
-                    Height (cm)
+                    Height (cm) <span className="text-red-500">*</span>
                   </label>
                   <Field
                     type="number"

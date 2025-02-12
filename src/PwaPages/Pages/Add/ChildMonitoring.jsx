@@ -17,7 +17,6 @@ const ChildMonitoring = () => {
       .get("https://stagedidikadhaba.indevconsultancy.in/testing/children/")
       .then((res) => {
         setNameList(res.data);
-        console.log(res.data);
       });
   };
   useEffect(() => {
@@ -37,6 +36,7 @@ const ChildMonitoring = () => {
     setSearchTerm("");
     setChildData(null);
     setIsDropdownOpen(false);
+    setName("");
   };
 
   useEffect(() => {
@@ -60,14 +60,17 @@ const ChildMonitoring = () => {
   };
 
   const validationSchema = Yup.object({
+    child: Yup.number().required("Name is required"),
     weight: Yup.number()
       .required("Weight is required")
       .typeError("Weight must be a number")
-      .positive("Weight must be positive"),
+      .positive("Weight must be positive")
+      .max(150, "Weight must be at most 150"),
     height: Yup.number()
       .required("Height is required")
       .typeError("Height must be a number")
-      .positive("Height must be positive"),
+      .positive("Height must be positive")
+      .max(250, "Height must be at most 250"),
   });
 
   const handleSubmit = async (values) => {
@@ -136,6 +139,11 @@ const ChildMonitoring = () => {
                         />
                       )}
                     </span>
+                    <ErrorMessage
+                      name="child"
+                      component="div"
+                      className="text-red-500 text-sm"
+                    />
 
                     {isDropdownOpen && !childData && (
                       <ul className="absolute z-20 bg-white border border-gray-300 shadow-lg rounded-lg mt-2 max-h-40 w-full overflow-y-auto">
@@ -157,6 +165,17 @@ const ChildMonitoring = () => {
                       </ul>
                     )}
                   </span>
+                </div>
+                <div>
+                  <label htmlFor="" className="block text-slate-600 mb-1">
+                    Monitoring Date
+                  </label>
+                  <Field
+                    type="date"
+                    disabled={true}
+                    value={new Date().toISOString().split("T")[0]}
+                    className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
                 </div>
 
                 <div>
@@ -194,7 +213,10 @@ const ChildMonitoring = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="height" className="block text-slate-600 mb-1">
+                  <label
+                    htmlFor="remarks"
+                    className="block text-slate-600 mb-1"
+                  >
                     Remarks
                   </label>
                   <Field
