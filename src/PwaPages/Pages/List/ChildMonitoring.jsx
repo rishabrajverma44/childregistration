@@ -5,14 +5,19 @@ import { Link } from "react-router-dom";
 
 const ChildMonitoring = () => {
   const [childrenData, setChildList] = useState([]);
+  const [schoolData, setSchoolList] = useState(null);
 
   useEffect(() => {
-    axios
-      .get("https://stagedidikadhaba.indevconsultancy.in/testing/monitoring/")
-      .then((response) => {
-        setChildList(response.data.reverse());
-      });
-  }, []);
+    if (schoolData?.sch_id !== undefined) {
+      axios
+        .get(
+          `https://pwa-databackend.indevconsultancy.in/monitoring/monitoring/?school=${schoolData.sch_id}`
+        )
+        .then((response) => {
+          setChildList(response.data.reverse());
+        });
+    }
+  }, [schoolData]);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -20,6 +25,13 @@ const ChildMonitoring = () => {
     setSearchTerm(e.target.value);
     setCurrentPage(1);
   };
+  useEffect(() => {
+    const data = localStorage.getItem("schoolData");
+    if (data) {
+      const json = JSON.parse(data);
+      setSchoolList(json);
+    }
+  }, []);
 
   const filteredChildren = childrenData.filter((child) =>
     child.child_name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -56,24 +68,41 @@ const ChildMonitoring = () => {
         {displayedChildren.map((child) => (
           <div
             key={child.id}
-            className="bg-white shadow-md rounded-lg px-2 py-2 mt-2"
+            className="bg-white shadow-md rounded-lg px-4 py-4 mt-2 flex items-center"
           >
-            <h3 className="text-lg font-semibold">{child.child_name}</h3>
-            <p className="text-gray-600 py-0 my-0">
-              Monitoring Date :{" "}
-              {child.monitoring_date
-                ?.split("T")[0]
-                .split("-")
-                .reverse()
-                .join("-")}
-            </p>
-            <p className="text-gray-600 py-0 my-0">
-              Weight: {child.weight} (in kg)
-            </p>
-            <p className="text-gray-600 py-0 my-0">
-              Height: {child.height} (in cm)
-            </p>
-            <p className="text-gray-600 py-0 my-0">Remarks: {child.remarks}</p>
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold">{child.child_name}</h3>
+              <p className="text-gray-600 py-0 my-0">
+                Monitoring Date:{" "}
+                {child.monitoring_date
+                  ?.split("T")[0]
+                  .split("-")
+                  .reverse()
+                  .join("-")}
+              </p>
+              <p className="text-gray-600 py-0 my-0">
+                Weight: {child.weight} (in kg)
+              </p>
+              <p className="text-gray-600 py-0 my-0">
+                Height: {child.height} (in cm)
+              </p>
+              <p className="text-gray-600 py-0 my-0">
+                Remarks: {child.remarks}
+              </p>
+            </div>
+            <div className="w-24 h-24 ml-4">
+              {child.image ? (
+                <img
+                  src={child.image}
+                  alt={child.name}
+                  className="w-full h-full object-cover rounded-md"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gray-300 text-gray-600 rounded-md">
+                  No Image
+                </div>
+              )}
+            </div>
           </div>
         ))}
       </div>

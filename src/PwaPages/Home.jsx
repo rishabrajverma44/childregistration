@@ -12,7 +12,7 @@ const Home = () => {
   const [selectedName, setSelectedName] = useState(false);
   const getChildren = () => {
     axios
-      .get("https://stagedidikadhaba.indevconsultancy.in/testing/schools/")
+      .get("https://pwa-databackend.indevconsultancy.in/monitoring/schools/")
       .then((res) => {
         setNameList(res.data);
         const data = localStorage.getItem("schoolData");

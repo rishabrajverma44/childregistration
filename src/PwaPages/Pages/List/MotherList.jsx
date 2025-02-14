@@ -5,13 +5,25 @@ import { Link } from "react-router-dom";
 
 const MotherList = () => {
   const [childrenData, setChildList] = useState([]);
+  const [schoolData, setSchoolList] = useState(null);
 
   useEffect(() => {
-    axios
-      .get("https://stagedidikadhaba.indevconsultancy.in/testing/mothers/")
-      .then((response) => {
-        setChildList(response.data.reverse());
-      });
+    if (schoolData?.sch_id) {
+      axios
+        .get(
+          `https://pwa-databackend.indevconsultancy.in/monitoring/mothers/?school=${schoolData.sch_id}`
+        )
+        .then((response) => {
+          setChildList(response.data.reverse());
+        });
+    }
+  }, [schoolData]);
+  useEffect(() => {
+    const data = localStorage.getItem("schoolData");
+    if (data) {
+      const json = JSON.parse(data);
+      setSchoolList(json);
+    }
   }, []);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -60,7 +72,11 @@ const MotherList = () => {
           >
             <h3 className="text-lg font-semibold">{child.name}</h3>
             <p className="text-gray-600 py-0 my-0">
-              Birth : {child.dod.split("-").reverse("").join("-")}
+              Husband Name: {child.husband_name}
+            </p>
+            <p className="text-gray-600 py-0 my-0">Age: {child.age} (Years)</p>
+            <p className="text-gray-600 py-0 my-0">
+              Date of Delivery : {child.dod.split("-").reverse("").join("-")}
             </p>
             <p className="text-gray-600 py-0 my-0">
               Weight: {child.weight} (kg)

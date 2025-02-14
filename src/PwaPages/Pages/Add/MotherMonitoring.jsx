@@ -5,28 +5,49 @@ import * as Yup from "yup";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { FaCamera } from "react-icons/fa";
+import { FiRefreshCcw, FiX } from "react-icons/fi";
+import Webcam from "react-webcam";
 
 const MotherMonitoring = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [imageSrc, setImageSrc] = useState(null);
+  const [isBackCamera, setIsBackCamera] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [nameList, setNameList] = useState([]);
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
+  const [isCaptured, setIsCaptured] = useState(false);
+  const webcamRef1 = useRef(null);
   const navigate = useNavigate();
-  const getChildren = () => {
+  const [schoolData, setSchoolList] = useState(null);
+  const [monetringList, setMonetoringList] = useState([]);
+  useEffect(() => {
+    const data = localStorage.getItem("schoolData");
+    if (data) {
+      const json = JSON.parse(data);
+      setSchoolList(json);
+    }
+  }, []);
+  const getChildren = (id) => {
     axios
-      .get("https://stagedidikadhaba.indevconsultancy.in/testing/mothers/")
+      .get(
+        `https://pwa-databackend.indevconsultancy.in/monitoring/mothers/?school=${id}`
+      )
       .then((res) => {
         setNameList(res.data);
       });
   };
   useEffect(() => {
-    getChildren();
-  }, []);
+    if (schoolData) {
+      getChildren(schoolData.sch_id);
+    }
+  }, [schoolData]);
   const [childData, setChildData] = useState(null);
   const dropdownRef = useRef(null);
   const childDetails = (child) => {
     axios
       .get(
-        `https://stagedidikadhaba.indevconsultancy.in/testing/mothers/${child.mom_id}/`
+        `https://pwa-databackend.indevconsultancy.in/monitoring/mothers/${child.mom_id}/`
       )
       .then((res) => {
         setChildData(res.data);
@@ -38,33 +59,62 @@ const MotherMonitoring = () => {
     childDetails(child);
     setChildData(child);
   };
-
   const handleClearSelection = () => {
     setSearchTerm("");
     setChildData(null);
     setIsDropdownOpen(false);
   };
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
     };
-
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
-
-  //form
   const [isLoading, setIsLoading] = useState(false);
   const initialValues = {
     mother: childData?.mom_id || "",
     health_status: "",
     notes: "",
     weight: "",
+    school: schoolData?.sch_id ?? null,
+    image: imageSrc,
   };
-
+  const handleToggleCamera = () => {
+    setIsCameraOpen((prev) => {
+      const newCameraState = !prev;
+      if (!newCameraState) {
+        resetCaptureState();
+      }
+      return newCameraState;
+    });
+  };
+  const handleCapture = () => {
+    if (webcamRef1.current) {
+      const capturedImage = webcamRef1.current.getScreenshot();
+      if (capturedImage) {
+        setImageSrc(capturedImage);
+        setIsCaptured(true);
+        setIsCameraOpen(false);
+      } else {
+        setImageSrc(null);
+      }
+    }
+  };
+  const handleRetake = () => {
+    setIsCaptured(false);
+    setImageSrc(null);
+    setIsCameraOpen(true);
+  };
+  const handleSwitchCamera = () => {
+    setIsBackCamera((prev) => !prev);
+  };
+  const resetCaptureState = () => {
+    setIsCaptured(false);
+    setImageSrc(null);
+  };
   const validationSchema = Yup.object({
     weight: Yup.number()
       .typeError("Weight must be a number")
@@ -72,19 +122,15 @@ const MotherMonitoring = () => {
       .required("Weight is required")
       .max(150, "Weight must be at most 150"),
   });
-
   const handleSubmit = async (values) => {
     setIsLoading(true);
-    console.log(values);
     try {
       const res = await axios.post(
-        `https://stagedidikadhaba.indevconsultancy.in/testing/monitoring_mother/`,
+        `https://pwa-databackend.indevconsultancy.in/monitoring/monitoring_mother/`,
         values
       );
       if (res.status === 201) {
         toast.success("Added successfully");
-        getChildren();
-        childDetails(childData);
         setTimeout(() => {
           navigate("/Mothermonitorlist");
         }, 1000);

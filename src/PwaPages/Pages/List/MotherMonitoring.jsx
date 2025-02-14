@@ -5,16 +5,19 @@ import { Link } from "react-router-dom";
 
 const MotherMonitoring = () => {
   const [childrenData, setChildList] = useState([]);
+  const [schoolData, setSchoolList] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(
-        "https://stagedidikadhaba.indevconsultancy.in/testing/monitoring_mother/"
-      )
-      .then((response) => {
-        setChildList(response.data.reverse());
-      });
-  }, []);
+    if (schoolData?.sch_id !== undefined) {
+      axios
+        .get(
+          `https://pwa-databackend.indevconsultancy.in/monitoring/monitoring_mother/?school=${schoolData.sch_id}`
+        )
+        .then((response) => {
+          setChildList(response.data.reverse());
+        });
+    }
+  }, [schoolData]);
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -22,6 +25,13 @@ const MotherMonitoring = () => {
     setSearchTerm(e.target.value);
     setCurrentPage(1);
   };
+  useEffect(() => {
+    const data = localStorage.getItem("schoolData");
+    if (data) {
+      const json = JSON.parse(data);
+      setSchoolList(json);
+    }
+  }, []);
 
   const filteredChildren = childrenData.filter((child) =>
     child.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -61,9 +71,11 @@ const MotherMonitoring = () => {
             className="bg-white shadow-md rounded-lg px-2 py-2 mt-2"
           >
             <h3 className="text-lg font-semibold">{child.name}</h3>
-
             <p className="text-gray-600 py-0 my-0">
               Weight: {child.weight} (in kg)
+            </p>
+            <p className="text-gray-600 py-0 my-0">
+              Health Status: {child.health_status}
             </p>
           </div>
         ))}
