@@ -11,12 +11,12 @@ const PublicFooter = () => {
               © 2024{" "}
               <span className="mr-1">
                 <a
-                  href="https://indevconsultancy.com/"
+                  href="https://ektafoundation.org/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white underline hover:no-underline hover:text-red-800 transition duration-300"
                 >
-                  IndevConsultancy
+                  Ekta Foundation
                 </a>
               </span>
               . All Rights Reserved.

@@ -14,7 +14,7 @@ const PublicNav = () => {
           <section className="flex justify-between items-center w-full">
             <div className="flex items-center justify-center">
               <Link to="/">
-                <img src="/images/logo.png" alt="logo" width="120" />
+                <img src="/images/logo.png" alt="logo" />
               </Link>
             </div>
 
